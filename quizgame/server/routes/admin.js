@@ -25,10 +25,10 @@ router.route('/login').post((req, res) => {
   Admin.findOne({'email': email})
   .then((data) => {
       if (data.password === password){
-        res.json("login authorized");
+        res.json("success");
       }
       else{
-          res.json("please check the credentials");
+          res.json("failure");
       }
       
   })

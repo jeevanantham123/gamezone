@@ -31,10 +31,15 @@ export default class Login extends Component{
             "email":this.state.email,
             "password":this.state.password
         }
-        console.log(user);
         axios.post('http://localhost:5000/admin/login',user)
-        .then(res => console.log(res.data))
-        .catch(error => this.setState({err:'Invalid credientials'}))
+        .then(res => {
+            if(res.data === "success"){
+                this.setState({err:''});
+             }
+            if(res.data === "failure")
+             this.setState({err:'Invalid credientials'});
+        })
+        .catch(error => console.log(error));
     }
     render(){
         return(

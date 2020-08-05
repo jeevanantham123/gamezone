@@ -69,7 +69,6 @@ export default class Signup extends Component{
             "email":this.state.email,
             "password":this.state.password
         }
-        console.log(user);
         axios.post('http://localhost:5000/admin/signup',user)
         .then(res => console.log(res.data));
     }
