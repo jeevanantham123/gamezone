@@ -1,0 +1,75 @@
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { Button, FormGroup, FormControl, ControlLabel, HelpBlock} from "react-bootstrap";
+import '../css/login.css'
+import axios from 'axios';
+// import banner from '../images/banner.jpg';
+export default class Login extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            email:'',
+            password:'',
+            err:''
+        }
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.setEmail = this.setEmail.bind(this);
+        this.setPassword = this.setPassword.bind(this);
+    }
+    setEmail(value){
+        this.setState({email: value});
+    }
+    setPassword(value){
+        this.setState({password: value});
+    }
+    validateForm() {
+        return this.state.email.length > 0 && this.state.password.length > 0;
+      }
+    handleSubmit(e){
+        e.preventDefault();
+        const user = {
+            "email":this.state.email,
+            "password":this.state.password
+        }
+        console.log(user);
+        axios.post('http://localhost:5000/admin/login',user)
+        .then(res => console.log(res.data))
+        .catch(error => this.setState({err:'Invalid credientials'}))
+    }
+    render(){
+        return(
+            <div className="Login">
+                <h3>Login</h3>
+                <form onSubmit={this.handleSubmit}>
+                    <HelpBlock>
+                    <p className="text-danger">{this.state.err}</p>
+                    </HelpBlock>
+                    <FormGroup controlId="email" bsSize="large">
+                    <ControlLabel>Email</ControlLabel>
+                    <FormControl
+                        autoFocus
+                        type="email"
+                        value={this.state.email}
+                        onChange={e =>this.setEmail(e.target.value)}
+                    />
+                    </FormGroup>
+                    <FormGroup controlId="password" bsSize="large">
+                    <ControlLabel>Password</ControlLabel>
+                    <FormControl
+                        value={this.state.password}
+                        onChange={e => this.setPassword(e.target.value)}
+                        type="password"
+                    />
+                    </FormGroup>
+                   
+                    <div className="signup">
+                    <Button id="login-button"  bsSize="large" disabled={!this.validateForm()} type="submit">
+                    Login
+                    </Button><br/>
+                    <Link to="/signup">New user? Sign up!</Link>
+                    </div>
+                </form>
+            </div>
+        )
+    }
+}

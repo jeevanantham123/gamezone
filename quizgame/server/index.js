@@ -18,5 +18,7 @@ connection.once('open', () => {
 })
 app.listen(port, () => {
     const adminRouter = require('./routes/admin');
+    const gameRouter = require('./routes/game')
     app.use('/admin',adminRouter);
+    app.use('/game',gameRouter);
 });
