@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button, FormGroup, FormControl, ControlLabel, HelpBlock} from "react-bootstrap";
 import '../css/login.css'
 import axios from 'axios';
+import history from '../history';
 // import banner from '../images/banner.jpg';
 export default class Login extends Component{
     constructor(props){
@@ -34,6 +35,8 @@ export default class Login extends Component{
         axios.post('http://localhost:5000/admin/login',user)
         .then(res => {
             if(res.data === "success"){
+                console.log("ok");
+                history.push('/home');
                 this.setState({err:''});
              }
             if(res.data === "failure")
