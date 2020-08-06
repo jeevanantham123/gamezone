@@ -81,7 +81,7 @@ export default class Signup extends Component{
                     <ControlLabel>Username</ControlLabel>
                     <FormControl
                         autoFocus
-                        type="username"
+                        type="text"
                         value={this.state.username}
                         onChange={e =>this.setUsername(e.target.value)}
                         
