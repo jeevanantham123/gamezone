@@ -89,14 +89,14 @@ export default class Home extends Component {
         if(this.validateForm()){
         e.preventDefault();
         const game = {
-            gameName    : this.state.gameName,
-            gameImage   : this.state.gameImage,
-            startTime   : this.state.startTime,
-            endTime     : this.state.endTime,
-            questions   : this.state.questions,
-            steps       : this.state.steps,
-            gameBgColor : this.state.gameBgColor,
-            gameCreator : this.state.gameCreator
+            "gameName"    : this.state.gameName,
+            "gameImage"   : this.state.gameImage,
+            "startTime"   : this.state.startTime,
+            "endTime"    : this.state.endTime,
+            "questions"   : this.state.questions,
+            "steps"     : ['a','b'],
+            "gameBgColor" : 'blue',
+            "gameCreator" : 'jeevanantham'
         }
         axios.post('http://localhost:5000/game/add',game)
         .then(res => console.log(res.data));
