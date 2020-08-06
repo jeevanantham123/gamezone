@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Button, FormGroup, FormControl, ControlLabel,HelpBlock } from "react-bootstrap";
-import '../css/home.css';
 import DateTimePicker from 'react-datetime-picker';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { HuePicker} from 'react-color'
+import 'react-toastify/dist/ReactToastify.css';
+import '../css/home.css';
+
 export default class Home extends Component {
     constructor(props){
         super(props);
@@ -20,12 +22,14 @@ export default class Home extends Component {
                 image:'',
                 shuffledAnswer:''
             },
+            step:'',
             steps:[],
             gameBgColor:'',
-            gameCreator:'',
+            gameCreator:this.props.location.state.username,
             questionFormerr:'',
             imagerr:'',
-            dateerr:''
+            dateerr:'',
+            questionImgerr:''
         };
         this.handlechangeGameName = this.handlechangeGameName.bind(this);
         this.handlechangeStartTime = this.handlechangeStartTime.bind(this);
@@ -33,7 +37,12 @@ export default class Home extends Component {
         this.handleaddQuestion = this.handleaddQuestion.bind(this);
         this.handlechangeQuestions= this.handlechangeQuestions.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handlechangeSteps = this.handlechangeSteps.bind(this);
+        this.addSteps = this.addSteps.bind(this);
     }
+    handleChangeBgColor = (color) => {
+        this.setState({ gameBgColor: color.hex });
+      };
     handlechangeGameName(value){
         this.setState({
             gameName: value
@@ -55,6 +64,8 @@ export default class Home extends Component {
     }
     handleaddQuestion(){
         if(this.state.que.question && this.state.que.answer && this.state.que.image && this.state.que.shuffledAnswer){
+            var imageformat = /htt+[a-z0-9_]/;
+           if(imageformat.test(this.state.que.image)){
             this.state.questions.push(this.state.que);
             console.log(this.state.questions);
             this.setState({
@@ -72,6 +83,13 @@ export default class Home extends Component {
         }
         else{
             this.setState({
+                questionFormerr:'',
+                questionImgerr:'Enter a Image Link!'
+            })
+        }
+       }
+        else{
+            this.setState({
                 questionFormerr:'Please fill all the fields!'
             })
         }
@@ -85,6 +103,17 @@ export default class Home extends Component {
             que:tempQue
         })
     }
+    handlechangeSteps(value){
+        this.setState({
+            step: value
+        });
+    }
+    addSteps(){
+        this.state.steps.push(this.state.step);
+        this.setState({
+            step:''
+        });
+    }
     handleSubmit(e){
         if(this.validateForm()){
         e.preventDefault();
@@ -96,11 +125,14 @@ export default class Home extends Component {
             "questions"   : this.state.questions,
             "steps"     : ['a','b'],
             "gameBgColor" : 'blue',
-            "gameCreator" : 'jeevanantham'
+            "gameCreator" : this.state.gameCreator
         }
         axios.post('http://localhost:5000/game/add',game)
         .then(res => console.log(res.data));
     }
+    }
+    activebutton(){
+       return this.state.gameName.length > 0 && this.state.questions.length > 0;
     }
     validateForm(){
         var imageformat = /htt+[a-z0-9_]/;
@@ -143,12 +175,28 @@ export default class Home extends Component {
                     <HelpBlock>
                     <p className="text-danger">{this.state.imageerr}</p>
                     </HelpBlock>
-                    <ControlLabel>Game Image(Enter link)</ControlLabel>
+                    <ControlLabel>Game Banner(Enter link)</ControlLabel>
                     <FormControl
                         autoFocus
                         type="text"
                         value={this.state.gameImage}
                         onChange={e =>this.handlechangeGameImage(e.target.value)}
+                    />
+                    </FormGroup>
+                    <FormGroup>
+                    <ControlLabel>Game Creator</ControlLabel>
+                    <FormControl
+                        autoFocus
+                        type="text"
+                        value={this.state.gameCreator}
+                    />
+                    </FormGroup>
+                    <FormGroup>
+                    <ControlLabel>Game BackGroundColor</ControlLabel>
+                    <HuePicker
+                    width='250px'
+                    color={ this.state.gameBgColor }
+                    onChangeComplete={ this.handleChangeBgColor }
                     />
                     </FormGroup>
                     <FormGroup controlId="starttime" bsSize="large">
@@ -194,6 +242,9 @@ export default class Home extends Component {
                                 />
                             </FormGroup>
                             <FormGroup controlId="image" bsSize="small">
+                                <HelpBlock>
+                                <p className="text-danger">{this.state.questionImgerr}</p>
+                                </HelpBlock>
                                 <p><span style={{fontSize:"17px"}}>&#8729;Image(Enter link)</span></p>
                                 <FormControl
                                 autoFocus
@@ -218,12 +269,25 @@ export default class Home extends Component {
                             </div>
                         </form>
                     </FormGroup>
+                    <FormGroup>
+                    <ControlLabel>Steps:</ControlLabel><br/>
+                    Currently Added: &nbsp;{this.state.steps.length}
+                    <FormControl
+                    autoFocus
+                    type="text"
+                    value={this.state.step}
+                    onChange={e =>this.handlechangeSteps(e.target.value)}
+                    />
+                    <div className="submit" style={{marginTop:"7px"}}>
+                    <Button type="button" className="bg-primary" id="success-button" onClick={this.addSteps}>Add</Button>
+                    </div>
+                    </FormGroup>
                     <div className="submit">
                     <Button id="login-button" bsSize="small" type="submit">
                         Preview
                     </Button>
                     &nbsp;
-                    <Button id="success-button" className="bg-success"  bsSize="small" type="button" onClick={this.handleSubmit}>
+                    <Button id="success-button" className="bg-success" disabled={!this.activebutton()} bsSize="small" type="button" onClick={this.handleSubmit}>
                         Confirm
                     </Button>
                     </div>

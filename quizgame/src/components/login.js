@@ -34,9 +34,12 @@ export default class Login extends Component{
         }
         axios.post('http://localhost:5000/admin/login',user)
         .then(res => {
-            if(res.data === "success"){
-                console.log("ok");
-                history.push('/home');
+            if(res.data['status'] === "success"){
+                console.log(res.data);
+                history.push({
+                    pathname :'/home',
+                    state:{username: res.data['username']}
+                });
                 this.setState({err:''});
              }
             if(res.data === "failure")

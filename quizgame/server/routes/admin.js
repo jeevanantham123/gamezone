@@ -25,7 +25,7 @@ router.route('/login').post((req, res) => {
   Admin.findOne({'email': email})
   .then((data) => {
       if (data.password === password){
-        res.json("success");
+        res.json({status:"success",username:data.username});
       }
       else{
           res.json("failure");
