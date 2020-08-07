@@ -2,14 +2,17 @@ import React, { Component } from 'react'
 import { Button, FormGroup, FormControl, ControlLabel,HelpBlock } from "react-bootstrap";
 import DateTimePicker from 'react-datetime-picker';
 import { ToastContainer, toast } from 'react-toastify';
-import axios from 'axios';
 import { HuePicker} from 'react-color'
 import 'react-toastify/dist/ReactToastify.css';
 import '../css/home.css';
+import history from '../history';
 
 export default class Home extends Component {
     constructor(props){
         super(props);
+        if(this.props.location.state === undefined){
+            window.location = "/admin";            
+        }
         this.state = {
             gameName:'',
             gameImage:'',
@@ -17,6 +20,7 @@ export default class Home extends Component {
             endTime:new Date(),
             questions:[],
             que:{
+                id:'',
                 question:'',
                 answer:'',
                 image:'',
@@ -36,9 +40,11 @@ export default class Home extends Component {
         this.handlechangeEndTime = this.handlechangeEndTime.bind(this);
         this.handleaddQuestion = this.handleaddQuestion.bind(this);
         this.handlechangeQuestions= this.handlechangeQuestions.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.handlechangeSteps = this.handlechangeSteps.bind(this);
         this.addSteps = this.addSteps.bind(this);
+        this.handlePreview = this.handlePreview.bind(this);
+        this.validateForm = this.validateForm.bind(this);
+        this.validateAll = this.validateAll.bind(this);
     }
     handleChangeBgColor = (color) => {
         this.setState({ gameBgColor: color.hex });
@@ -66,10 +72,16 @@ export default class Home extends Component {
         if(this.state.que.question && this.state.que.answer && this.state.que.image && this.state.que.shuffledAnswer){
             var imageformat = /htt+[a-z0-9_]/;
            if(imageformat.test(this.state.que.image)){
+            const temp = this.state.que;
+            temp.id =this.state.questions.length;
+            this.setState({
+                que : temp
+            });
             this.state.questions.push(this.state.que);
             console.log(this.state.questions);
             this.setState({
-                questionFormerr:''
+                questionFormerr:'',
+                questionImgerr:''
             });
             toast.success("Question Added!",{
                 position: "top-right",
@@ -104,35 +116,60 @@ export default class Home extends Component {
         })
     }
     handlechangeSteps(value){
-        this.setState({
-            step: value
-        });
+            this.setState({
+                step: value
+            });
     }
     addSteps(){
-        this.state.steps.push(this.state.step);
-        this.setState({
-            step:''
-        });
-    }
-    handleSubmit(e){
-        if(this.validateForm()){
-        e.preventDefault();
-        const game = {
-            "gameName"    : this.state.gameName,
-            "gameImage"   : this.state.gameImage,
-            "startTime"   : this.state.startTime,
-            "endTime"    : this.state.endTime,
-            "questions"   : this.state.questions,
-            "steps"     : ['a','b'],
-            "gameBgColor" : 'blue',
-            "gameCreator" : this.state.gameCreator
+        if(this.state.step.length > 10){
+            toast.success("Step Added!",{
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+            });
+            this.state.steps.push(this.state.step);
+            this.setState({
+                step:''
+            });
         }
-        axios.post('http://localhost:5000/game/add',game)
-        .then(res => console.log(res.data));
+        else{
+            toast.warn("Step must be atleast 10 chr's!",{
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+            });
+
+        }
     }
+    handlePreview(e){
+        e.preventDefault();
+        if( this.validateForm()){
+            const game = {
+                "gameName"    : this.state.gameName,
+                "gameImage"   : this.state.gameImage,
+                "startTime"   : this.state.startTime,
+                "endTime"    : this.state.endTime,
+                "questions"   : this.state.questions,
+                "steps"     : this.state.steps,
+                "gameBgColor" :this.state.gameBgColor,
+                "gameCreator" : this.state.gameCreator
+            };
+            history.push({
+                pathname : '/admin/preview',
+                state : {data : game}
+            });
+        }
     }
-    activebutton(){
-       return this.state.gameName.length > 0 && this.state.questions.length > 0;
+    validateAll(){
+        return  this.state.gameName.length > 0 && this.state.gameImage.length > 0 && this.state.gameBgColor.length > 0 &&  this.state.questions.length > 0 && this.state.steps.length > 0 && (this.state.endTime > this.state.startTime);
     }
     validateForm(){
         var imageformat = /htt+[a-z0-9_]/;
@@ -283,12 +320,8 @@ export default class Home extends Component {
                     </div>
                     </FormGroup>
                     <div className="submit">
-                    <Button id="login-button" bsSize="small" type="submit">
+                    <Button id="login-button" bsSize="small" disabled={!this.validateAll()} type="submit" onClick={this.handlePreview}>
                         Preview
-                    </Button>
-                    &nbsp;
-                    <Button id="success-button" className="bg-success" disabled={!this.activebutton()} bsSize="small" type="button" onClick={this.handleSubmit}>
-                        Confirm
                     </Button>
                     </div>
                 </form>

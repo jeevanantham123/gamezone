@@ -4,6 +4,7 @@ import { Button, FormGroup, FormControl, ControlLabel , HelpBlock} from "react-b
 import { Link } from 'react-router-dom';
 import '../css/login.css'
 import axios from 'axios';
+import history from '../history';
 
 export default class Signup extends Component{
     constructor(props){
@@ -70,7 +71,14 @@ export default class Signup extends Component{
             "password":this.state.password
         }
         axios.post('http://localhost:5000/admin/signup',user)
-        .then(res => console.log(res.data));
+        .then(res => {
+            if(res.data === 'success'){
+                history.push({
+                    pathname:'/admin/home',
+                    state:{username: this.state.username}
+                })
+            }
+        });
     }
     render(){
         return(
@@ -114,7 +122,7 @@ export default class Signup extends Component{
                     <Button id="login-button"  bsSize="small" disabled={!this.validateForm()} type="submit">
                     Sign up
                     </Button><br/>
-                    <Link to="/">Already a user? Log in!</Link>
+                    <Link to="/admin">Already a user? Log in!</Link>
                     </div>
                 </form>
             </div>

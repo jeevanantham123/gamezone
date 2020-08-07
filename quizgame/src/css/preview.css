@@ -1,0 +1,24 @@
+.preview{
+   text-align: center;
+}
+
+.preview form{
+    display: inline-block;
+}
+
+.q-list{
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
+}
+.q-list::-webkit-scrollbar{
+    display: none;
+}
+.q-list input{
+    width:220px;
+    margin-left: 2px;
+}
+
+.q-list ul li{
+    margin-top:10px;
+}

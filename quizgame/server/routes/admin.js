@@ -15,7 +15,7 @@ router.route('/signup').post((req, res) => {
   const newUser = new Admin({username,email,password});
 
   newUser.save()
-    .then(() => res.json('User added!'))
+    .then(() => res.json('success'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 

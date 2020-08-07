@@ -1,9 +1,13 @@
 const router = require('express').Router();
 let Game = require('../models/game.model');
-
+var session = require('express-session');
 router.route('/').get((req, res) => {
+    req.session.save();
+    console.log(req.sessionID);
     Game.find()
-      .then(users => res.json(users))
+      .then(games => {
+          res.json(games);
+      })
       .catch(err => res.status(400).json('Error: ' + err));
   });
 

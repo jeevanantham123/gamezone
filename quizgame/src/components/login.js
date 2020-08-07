@@ -37,7 +37,7 @@ export default class Login extends Component{
             if(res.data['status'] === "success"){
                 console.log(res.data);
                 history.push({
-                    pathname :'/home',
+                    pathname :'/admin/home',
                     state:{username: res.data['username']}
                 });
                 this.setState({err:''});
@@ -77,7 +77,7 @@ export default class Login extends Component{
                     <Button id="login-button"  bsSize="large" disabled={!this.validateForm()} type="submit">
                     Login
                     </Button><br/>
-                    <Link to="/signup">New user? Sign up!</Link>
+                    <Link to="/admin/signup">New user? Sign up!</Link>
                     </div>
                 </form>
             </div>
