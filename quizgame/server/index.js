@@ -3,22 +3,25 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 var session = require('express-session');
 require('dotenv').config();
-
+var MongoDBStore = require('connect-mongodb-session')(session);
 
 
 const app = express();
 const port = process.env.PORT || 5000;
 app.use(express.json());
 
+var store = new MongoDBStore({
+  uri: process.env.ATLAS_URI,
+  collection: 'sessions',
+  expires: 1000 * 60 * 60 * 24 * 30
+});
 
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.sessionMiddleware = session({
   secret : 'abcd',
   resave: true,
   saveUninitialized:true,
-  cookie: {
-    maxAge: null,
-  }
+  store : store
 })
 app.use(app.sessionMiddleware);
 

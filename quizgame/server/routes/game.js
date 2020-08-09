@@ -1,12 +1,12 @@
 const router = require('express').Router();
 let Game = require('../models/game.model');
 var session = require('express-session');
+const { getNodeText } = require('@testing-library/react');
 router.route('/').get((req, res) => {
     req.session.save();
-    console.log(req.sessionID);
     Game.find()
       .then(games => {
-          res.json(games);
+          res.json({games, sessionID:req.sessionID});
       })
       .catch(err => res.status(400).json('Error: ' + err));
   });
