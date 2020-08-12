@@ -1,0 +1,85 @@
+.game-choosen{
+    background: rgb(7, 2, 29);
+    text-align: center;
+    height:100%;
+    color: white;
+    overflow: scroll;
+}
+.inner-game-choosen{
+    display: inline-block;
+    width:280px;
+}
+.game-banner{
+    color: black;
+    margin-top:5px;
+    border-radius: 10px;
+    display: inline-block;
+    background-color: white;
+    padding: 5px;
+    width:280px;
+}
+.game-banner img{
+    border:2px solid black;
+    width:270px;
+    height:170px;
+    border-radius:0 0 5px 5px;
+}
+
+.game-banner h4{
+    margin-top: 10px;
+}
+
+.game-creator{
+    height:fit-content;
+    text-align: left;
+    display: none;
+    color: black;
+    margin-top:10px;
+    border-radius:8px;
+    background-color: white;
+    padding: 5px;
+    width:280px;
+}
+
+.back-button{
+    text-align: left;
+    cursor: pointer;
+}
+.back-button img{
+    width:40px;
+    height:40px;
+    background-color: #ffc107;
+    border-radius: 50%;
+    margin:0;
+    padding: 0;
+}
+
+.steps{
+    width: 280px;
+    padding: 20px;
+    text-align: left;
+    color: black;
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color:white;
+    overflow-y: scroll;
+}
+
+.steps::-webkit-scrollbar{
+    display: none;
+}
+
+#play-button{
+    font-weight: bold;
+    margin-top: 10px;
+    color: rgb(14, 14, 51);
+}
+
+#game-end{
+    border:2px solid black;
+    background-color: yellow;
+    color: blue;
+    font-weight: bold;
+    border-radius:5px 5px 0 0;
+    border-bottom: 0;
+}

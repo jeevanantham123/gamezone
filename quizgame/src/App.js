@@ -8,6 +8,10 @@ import Signup from './components/signup';
 import Home from './components/home';
 import Preview from './components/preview';
 import UserHome from './components/userhome';
+import Startgame from './components/startgame';
+import GameScreen from './components/gamescreen';
+import Winner from './components/winner';
+import Loser from './components/loser';
 
 function App() {
   return (
@@ -18,6 +22,10 @@ function App() {
       <Route path="/admin/signup" exact component={Signup} />
       <Route path="/admin/home" exact component={Home} />
       <Route path="/admin/preview" exact component={Preview} />
+      <Route path="/startgame" exact component={Startgame} />
+      <Route path="/gamescreen" exact component={GameScreen}/>
+      <Route path="/winner" exact component={Winner}/>
+      <Route path="/betterluck" exact component={Loser}/>
       </div>
    </Router>
   );

@@ -3,9 +3,11 @@ import axios from 'axios';
 import '../css/userhome.css';
 import gaming from '../images/gaming.gif';
 //import comingsoon from '../images/comingsoon.gif';
-import Timer from 'react-compound-timer'
 import {Button} from 'react-bootstrap';
 import { FaForward , FaPlayCircle, FaBackward} from 'react-icons/fa';
+import history from '../history';
+import BeatLoader from "react-spinners/ClipLoader";
+import Countdown from 'react-countdown';
 
 export default class UserHome extends Component {
     constructor(props){
@@ -17,6 +19,7 @@ export default class UserHome extends Component {
             FinishedGames:[],
             isLoaded: false
         };
+        this.handleStartGame = this.handleStartGame.bind(this);
     }
     componentDidMount(){
         const now = new Date();
@@ -44,32 +47,57 @@ export default class UserHome extends Component {
             }
             window.localStorage.setItem('sessionID' , res.data.sessionID);
         });
+    }
 
+    handleStartGame(id){
+        const game = this.state.OnGoingGames.filter((g) => {
+            return g._id === id;
+    });
+    history.push({
+        pathname:'/startgame',
+        state : {game : game}
+    })
     }
     render() {
         return (
             <div className="user-home">
                 <div className="games-screen">
-                    <div className="banner">
-                        <img src={gaming} alt=""/>
-                    </div>
+                    <Banner/>
                     <b>Coming Soon&nbsp;<FaForward/></b>
                         {
                          this.state.isLoaded ?
                         <ComingSoon games={this.state.ComingSoonGames}/>:
-                        <h5>Loading..</h5>
+                        <div>
+                            <BeatLoader
+                            size={50}
+                            color={"white"}
+                            loading={!this.state.isLoaded}
+                            />
+                        </div>
                         }
                     <b>On Going Now&nbsp;<FaPlayCircle/></b>
                         {
                          this.state.isLoaded ?
-                        <OnGoing games={this.state.OnGoingGames}/>:
-                        <h5>Loading..</h5>
+                        <OnGoing games={this.state.OnGoingGames} handleStartGame = {this.handleStartGame}/>:
+                        <div>
+                            <BeatLoader
+                            size={50}
+                            color={"white"}
+                            loading={!this.state.isLoaded}
+                            />
+                        </div>
                         }
                     <b>Past Games&nbsp;<FaBackward/></b>
                         {
                          this.state.isLoaded ?
                         <PastGames games={this.state.FinishedGames}/>:
-                        <h5>Loading..</h5>
+                        <div>
+                            <BeatLoader
+                            size={50}
+                            color={"white"}
+                            loading={!this.state.isLoaded}
+                            />
+                        </div>
                         }
                     
                 </div>
@@ -80,7 +108,6 @@ export default class UserHome extends Component {
 
 export function ComingSoon(props){
     const games = props.games;
-    console.log(games);
     const gamesList = [];
     games.forEach(game => {
         gamesList.push( 
@@ -88,22 +115,14 @@ export function ComingSoon(props){
             <h6>{game.gameName}</h6>
             <img src={game.gameImage} alt="not Available!"/>
             <br/>
-            <Timer
-                initialTime={game.startTime}
-                direction="backward"
-            >
-                {() => (
                     <div className="timer">
                         Starts in:
                         &nbsp;
-                        <Timer.Hours />h
-                        &nbsp;
-                        <Timer.Minutes />m
-                        &nbsp;
-                        <Timer.Seconds />s
+                        <Countdown
+                        date={game.startTime}
+                        renderer = {(props)=> <span >{props.days}d {props.hours}h {props.minutes}m {props.seconds}s</span>}
+                        />
                     </div>
-                )}
-            </Timer>
         </div>)
     });
     return(
@@ -115,7 +134,6 @@ export function ComingSoon(props){
 
 export function OnGoing(props){
     const games = props.games;
-    console.log(games);
     const gamesList = [];
     games.forEach(game => {
         gamesList.push( 
@@ -123,7 +141,7 @@ export function OnGoing(props){
             <h6>{game.gameName}</h6>
             <img src={game.gameImage} alt="not Available!"/>
             <br/>
-            <Button className="bg-primary" >Play Now</Button>
+            <Button className="bg-success" type="button" onClick={()=> props.handleStartGame(game._id)}>Play Now</Button>
         </div>)
     });
     return(
@@ -135,7 +153,6 @@ export function OnGoing(props){
 
 export function PastGames(props){
     const games = props.games;
-    console.log(games);
     const gamesList = [];
     games.forEach(game => {
         gamesList.push( 
@@ -151,3 +168,14 @@ export function PastGames(props){
         </div>
     )
 }
+
+
+export function Banner(props){
+    return(
+        <div className="banner">
+            <img src={gaming} alt=""/>
+        </div>
+    )
+}
+
+
