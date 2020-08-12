@@ -2,13 +2,28 @@ const router = require('express').Router();
 let Game = require('../models/game.model');
 var session = require('express-session');
 const { getNodeText } = require('@testing-library/react');
-router.route('/').get((req, res) => {
-    req.session.save();
-    Game.find()
-      .then(games => {
-          res.json({games, sessionID:req.sessionID});
-      })
-      .catch(err => res.status(400).json('Error: ' + err));
+router.route('/').post((req, res) => {
+    if(req.body.session === undefined){
+        req.session.regenerate(function(err){
+            req.session.save();
+            Game.find()
+            .then(games => {
+                res.json({games, sessionID:req.sessionID});
+            })
+            .catch(err => res.status(400).json('Error: ' + err));
+        });
+    }
+    else{
+        req.sessionID = req.body.session;
+        req.session.save();
+        Game.find()
+        .then(games => {
+            res.json({games, sessionID:req.sessionID});
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+    }
+    
+    
   });
 
 router.route('/add').post((req,res)=>{
