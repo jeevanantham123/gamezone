@@ -4,11 +4,12 @@ const mongoose = require('mongoose');
 var session = require('express-session');
 require('dotenv').config();
 var MongoDBStore = require('connect-mongodb-session')(session);
-
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const port = process.env.PORT || 5000;
 app.use(express.json());
+app.use(cookieParser());
 
 var store = new MongoDBStore({
   uri: process.env.ATLAS_URI,
@@ -21,7 +22,10 @@ app.sessionMiddleware = session({
   secret : 'abcd',
   resave: true,
   saveUninitialized:true,
-  store : store
+  store : store,
+  cookie : {
+    maxAge:null
+  }
 })
 app.use(app.sessionMiddleware);
 

@@ -23,9 +23,7 @@ export default class UserHome extends Component {
     }
     componentDidMount(){
         const now = new Date();
-        if(window.localStorage.getItem('sessionID') === null){
-            const session = 'null';
-        axios.post('http://localhost:5000/game/',session,{
+        axios.get('http://localhost:5000/game/',{
             withCredentials:true
         })
         .then( res => {
@@ -49,34 +47,7 @@ export default class UserHome extends Component {
             }
             window.localStorage.setItem('sessionID' , res.data.sessionID);
         });
-            }
-        else{
-            const session =  window.localStorage.getItem('sessionID');
-            console.log(session);
-            axios.post('http://localhost:5000/game/',{session},{
-            withCredentials:true
-        })
-        .then( res => {
-            if(res.data.games){
-                for (const iterator of res.data.games) {
-                    iterator.startTime = new Date(iterator.startTime);
-                    iterator.endTime = new Date(iterator.endTime);
-                    if(iterator.startTime > now){
-                        this.state.ComingSoonGames.push(iterator);
-                    }
-                    else if(iterator.endTime < now){
-                        this.state.FinishedGames.push(iterator);
-                    }
-                    else{
-                        this.state.OnGoingGames.push(iterator);
-                    }
-                }
-                this.setState({
-                    isLoaded : true
-                });
-            }
-        });
-        }
+       
     }
 
     handleStartGame(id){

@@ -4,7 +4,10 @@
     height:100%;
     color: white;
 }
-
+.inner-winner-block{
+    display: inline-block;
+    width:280px;
+}
 .inner-winner{
     margin-top:100px;
     background: white;
@@ -14,7 +17,7 @@
     width:280px;
     text-align: left;
     font-weight: 600;
-    font-size:30px;
+    font-size:20px;
     color: rgb(230, 21, 118);
 }
 
@@ -23,6 +26,51 @@
 }
 
 .inner-winner p{
-    margin-top:-50px;
     text-align: center;
+}
+.inner-winner #p1{
+    font-size: 25px;
+    margin-top:-70px;
+    text-align: center;
+}
+.inner-winner #p2{
+    font-size:18px;
+    margin-top:-30px;
+    text-align: center;
+}
+
+#form{
+    text-align: left;
+    border:2px solid white;
+    border-radius: 10px;
+    background-color:rgb(230, 21, 118);
+    margin-top:20px;
+    width:280px;
+    padding:5px;
+    text-align: center;
+
+}
+
+#form div{
+    width:250px;
+}
+
+#form form{
+    width:250px;
+}
+
+#form input{
+    width:240px;
+}
+
+#submit{
+    width:280px;
+    text-align: center;
+}
+
+#submit button{
+    border: 1px solid rgb(230, 21, 118);
+    background-color: white;
+    color: rgb(230, 21, 118);
+    font-weight: bold;
 }

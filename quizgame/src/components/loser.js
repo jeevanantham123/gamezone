@@ -8,8 +8,10 @@ export default class Loser extends Component {
     constructor(props){
         super(props);
         this.state = {
-            reason:this.props.location.state.failure
+            reason:this.props.location.state.failure,
+            game:this.props.location.state.name
         }
+        console.log(this.props.location.state);
         this.handlePlayAgain = this.handlePlayAgain.bind(this);
         this.handelB2Home = this.handelB2Home.bind(this);
     }
@@ -26,6 +28,14 @@ export default class Loser extends Component {
         if(this.props.location.state === undefined){
             console.log('err');
             window.location.href ="/";
+        }
+        if(window.localStorage.getItem(this.state.game) === null){
+            window.localStorage.setItem(this.state.game,1);
+        }
+        else{
+            var count = window.localStorage.getItem(this.state.game);
+            count ++;
+            window.localStorage.setItem(this.state.game,count);
         }   
     }
     render() {

@@ -6,6 +6,8 @@ import backspace from '../images/ic-backspace@3x.png';
 import {FaUser} from 'react-icons/fa';
 import Countdown from 'react-countdown';
 import history from '../history.js';
+import gamepad from '../images/il-gamepad-big@3x.png';
+import stepimg from '../images/step1.png';
 export default class Startgame extends Component {
     constructor(props){
         super(props);
@@ -47,12 +49,17 @@ export default class Startgame extends Component {
                     <h5>Creator:&nbsp;<FaUser/>&nbsp;{this.state.game.gameCreator}</h5>
                 </div>
                 <div className="steps">
-                    <h6 style={{fontWeight:"bold"}}>Please read the below steps!</h6>
+                    <p style={{fontWeight:"bold"}}><img id="step-img" src={stepimg} alt=""/>Instructions</p>
                     <StepsList steps={this.state.game.steps}/>
+                    <div id="gamepad">
+                         <img  src={gamepad} alt=""/>
+                    </div>
                 </div>
-                <Button id="play-button" className="bg-warning" type="button" onClick={this.handleStartGame}>
+                <div id="play-button">
+                <Button  className="bg-warning" type="button" onClick={this.handleStartGame}>
                     Play Now!
                 </Button>
+                </div>
                 </div>
             </div>
         )

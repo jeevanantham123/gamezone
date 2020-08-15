@@ -1,9 +1,14 @@
 .preview{
    text-align: center;
+    background: rgb(7, 2, 29);
+    color: white;
 }
 
 .preview form{
     display: inline-block;
+    border: 2px solid rgb(151, 3, 250);
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .q-list{

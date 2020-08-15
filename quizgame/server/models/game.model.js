@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const gameSchema = new Schema({
     gameName:{
         type: String,
-        required: true
+        required: true,
+        unique:true
     },
     gameImage:{
         type: String,
@@ -34,6 +35,9 @@ const gameSchema = new Schema({
     gameCreator:{
         type: String,
         required: true
+    },
+    winners:{
+        type:Array
     }
 },{
     timestamps: true

@@ -5,6 +5,9 @@ import axios from 'axios';
 export default class Preview extends Component {
     constructor(props){
         super(props);
+        if(this.props.location.state === undefined){
+            window.location = "/admin";            
+        }
         this.state = {
             gameName : this.props.location.state.data.gameName,
             gameImage:this.props.location.state.data.gameImage,
@@ -14,6 +17,7 @@ export default class Preview extends Component {
             steps:this.props.location.state.data.steps,
             gameBgColor:this.props.location.state.data.gameBgColor,
             gameCreator:this.props.location.state.data.gameCreator,
+            preview : this.props.location.state.preview
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -21,13 +25,15 @@ export default class Preview extends Component {
         e.preventDefault();
         const game = this.props.location.state.data;
         axios.post('http://localhost:5000/game/add',game)
-        .then(res => console.log(res.data));
+        .then(res => {
+            this.props.history.goBack();
+        });
     }
     render() {
         return (
             <div className ="preview">
+                <h4 style={{textAlign:"center"}}>Preview</h4>
                 <form>
-                    <h4 style={{textAlign:"center"}}>Preview</h4>
                 <FormGroup>
                     <ControlLabel>Game Name</ControlLabel>
                     <FormControl
@@ -77,12 +83,15 @@ export default class Preview extends Component {
                     <ControlLabel>Steps</ControlLabel>
                     <StepsList steps={this.state.steps}/>
                 </FormGroup>
-                </form>
+                {this.state.preview?
                 <div className="submit">
                 <Button id="success-button" className="bg-success"  bsSize="small" type="button" onClick={this.handleSubmit}>
                         Confirm
                 </Button>
-                </div>
+                </div>:
+                <div></div>
+                }
+                </form>
             </div>
         )
     }

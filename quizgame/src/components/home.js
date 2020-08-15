@@ -6,6 +6,7 @@ import { HuePicker} from 'react-color'
 import 'react-toastify/dist/ReactToastify.css';
 import '../css/home.css';
 import history from '../history';
+import backspace from '../images/ic-backspace@3x.png';
 
 export default class Home extends Component {
     constructor(props){
@@ -45,6 +46,12 @@ export default class Home extends Component {
         this.handlePreview = this.handlePreview.bind(this);
         this.validateForm = this.validateForm.bind(this);
         this.validateAll = this.validateAll.bind(this);
+        this.handleBackSpace =  this.handleBackSpace.bind(this);
+
+    }
+    handleBackSpace(e){
+        e.preventDefault();
+        this.props.history.goBack();
     }
     handleChangeBgColor = (color) => {
         this.setState({ gameBgColor: color.hex });
@@ -164,7 +171,7 @@ export default class Home extends Component {
             };
             history.push({
                 pathname : '/admin/preview',
-                state : {data : game}
+                state : {data : game, preview : true}
             });
         }
     }
@@ -197,8 +204,12 @@ export default class Home extends Component {
     render() {
         return (
             <div className="home">
-                 <h3>Add a new Game</h3>
                 <form >
+                    <div className="back-button" onClick={this.handleBackSpace}>
+                        <img src={backspace} alt="back"/>
+                        <h3>Add a new Game</h3>
+                    </div>
+                    <br/>
                    <FormGroup controlId="gamename" bsSize="large">
                     <ControlLabel>Gamename</ControlLabel>
                     <FormControl
@@ -214,7 +225,6 @@ export default class Home extends Component {
                     </HelpBlock>
                     <ControlLabel>Game Banner(Enter link)</ControlLabel>
                     <FormControl
-                        autoFocus
                         type="text"
                         value={this.state.gameImage}
                         onChange={e =>this.handlechangeGameImage(e.target.value)}
@@ -223,7 +233,6 @@ export default class Home extends Component {
                     <FormGroup>
                     <ControlLabel>Game Creator</ControlLabel>
                     <FormControl
-                        autoFocus
                         type="text"
                         value={this.state.gameCreator}
                     />
@@ -263,7 +272,6 @@ export default class Home extends Component {
                             <FormGroup controlId="question" bsSize="small">
                                 <p><span style={{fontSize:"17px"}}>&#8729;Question</span></p>
                                 <FormControl
-                                autoFocus
                                 type="text"
                                 value={this.state.que.question}
                                 onChange={e =>this.handlechangeQuestions(e.target.id,e.target.value)}
@@ -272,7 +280,6 @@ export default class Home extends Component {
                             <FormGroup controlId="answer" bsSize="small">
                                 <p><span style={{fontSize:"17px"}}>&#8729;Answer</span></p>
                                 <FormControl
-                                autoFocus
                                 type="text"
                                 value={this.state.que.answer}
                                 onChange={e =>this.handlechangeQuestions(e.target.id,e.target.value)}
@@ -284,7 +291,6 @@ export default class Home extends Component {
                                 </HelpBlock>
                                 <p><span style={{fontSize:"17px"}}>&#8729;Image(Enter link)</span></p>
                                 <FormControl
-                                autoFocus
                                 type="text"
                                 value={this.state.que.image}
                                 onChange={e =>this.handlechangeQuestions(e.target.id,e.target.value)}
@@ -293,7 +299,6 @@ export default class Home extends Component {
                             <FormGroup controlId="shuffledAnswer" bsSize="small">
                                 <p><span style={{fontSize:"17px"}}>&#8729;Shuffled Answer</span></p>
                                 <FormControl
-                                autoFocus
                                 type="text"
                                 value={this.state.que.shuffledAnswer}
                                 onChange={e =>this.handlechangeQuestions(e.target.id,e.target.value)}
@@ -310,7 +315,6 @@ export default class Home extends Component {
                     <ControlLabel>Steps:</ControlLabel><br/>
                     Currently Added: &nbsp;{this.state.steps.length}
                     <FormControl
-                    autoFocus
                     type="text"
                     value={this.state.step}
                     onChange={e =>this.handlechangeSteps(e.target.value)}

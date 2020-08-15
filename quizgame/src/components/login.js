@@ -37,7 +37,7 @@ export default class Login extends Component{
             if(res.data['status'] === "success"){
                 console.log(res.data);
                 history.push({
-                    pathname :'/admin/home',
+                    pathname :'/admin/adminPanel',
                     state:{username: res.data['username']}
                 });
                 this.setState({err:''});

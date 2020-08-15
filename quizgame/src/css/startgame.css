@@ -5,9 +5,14 @@
     color: white;
     overflow: scroll;
 }
+
+.game-choosen::-webkit-scrollbar{
+    display: none;
+}
 .inner-game-choosen{
     display: inline-block;
     width:280px;
+    height:100%;
 }
 .game-banner{
     color: black;
@@ -56,6 +61,7 @@
 
 .steps{
     width: 280px;
+    height:200px;
     padding: 20px;
     text-align: left;
     color: black;
@@ -69,7 +75,22 @@
     display: none;
 }
 
+.steps #gamepad{
+    margin-top:10px;
+    width:235px;
+    text-align: right;
+}
+
+#gamepad img{
+    width:100px;
+    height:100px;
+}
 #play-button{
+    position: absolute;
+    margin-left:0px;
+    width:280px;
+    text-align: center;
+    bottom: 0;
     font-weight: bold;
     margin-top: 10px;
     color: rgb(14, 14, 51);
@@ -82,4 +103,13 @@
     font-weight: bold;
     border-radius:5px 5px 0 0;
     border-bottom: 0;
+}
+
+#play-button button{
+    font-weight: bold;
+}
+
+#step-img{
+    display: inline-block;
+    width:50px;
 }

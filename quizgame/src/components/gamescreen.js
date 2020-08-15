@@ -45,7 +45,7 @@ export default class GameScreen extends Component {
         else if((this.state.id+1) === this.state.game.questions.length){
             history.push({
                 pathname:'/winner',
-                state : {'winner' : true}
+                state : {'winner' : true , gname: this.state.game.gameName}
             })
         }
     }
@@ -55,7 +55,7 @@ export default class GameScreen extends Component {
     }
     handleConfrimQuit(e){
         e.preventDefault();
-        this.props.history.goBack();
+        window.location.href = "/";
     }
     handleCancelQuit(e){
         const confirmDiv= document.getElementById('confirm-quit');
@@ -167,7 +167,7 @@ export function GameArea(props){
             <QuestionImage image={game.questions[id].image}/>
             <Question question={game.questions[id].question}/>
             <AnswerBlock answer={game.questions[id].answer} />
-            <ShuffledAnswerBlock shuffledAnswer={game.questions[id].shuffledAnswer} answer={game.questions[id].answer} answered={props.handleAnswered}/>
+            <ShuffledAnswerBlock shuffledAnswer={game.questions[id].shuffledAnswer} answer={game.questions[id].answer} answered={props.handleAnswered} gname={game.gameName}/>
         </div>
     )
 }
@@ -230,7 +230,7 @@ export function ShuffledAnswerBlock(props){
         clearInterval(checkTimer);
            history.push({
                 pathname:'/betterluck',
-                state : {'failure' : 'seems like time out!'}
+                state : {'failure' : 'seems like time out!','name':props.gname}
         });
     }
     const userClicked = (e) => {
@@ -252,7 +252,7 @@ export function ShuffledAnswerBlock(props){
                         clearTimeout(checkTimer);
                         history.push({
                             pathname:'/betterluck',
-                            state : {'failure' : 'seems like wrong answer!'}
+                            state : {'failure' : 'seems like wrong answer!' ,'name':props.gname}
                         });
                     }
                 }

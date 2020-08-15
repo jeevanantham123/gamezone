@@ -98,7 +98,6 @@ export default class Signup extends Component{
                     <FormGroup controlId="email" bsSize="large">
                     <ControlLabel>Email</ControlLabel>
                     <FormControl
-                        autoFocus
                         type="email"
                         value={this.state.email}
                         onChange={e =>this.setEmail(e.target.value)}

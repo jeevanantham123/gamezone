@@ -6,8 +6,14 @@
 }
 
 .games-screen{
+    overflow-y:scroll;
+    height:100%;
     text-align: left;
     display: inline-block;
+}
+
+.games-screen::-webkit-scrollbar{
+    display: none;
 }
 
 .banner img{
@@ -16,7 +22,7 @@
 }
 .coming-soon{
     max-width:280px;
-    height:150px;
+    height:160px;
     white-space: nowrap;
     overflow-x:scroll;
 }
@@ -28,7 +34,7 @@
     border: 2px solid black;
     border-radius: 10px;
     width: 200px;
-    height:170px;
+    height:max-content;
     text-align: center;
     margin-left: 10px;
 }
@@ -42,7 +48,7 @@
 }
 .on-going{
     max-width:280px;
-    height:170px;
+    height:175px;
     white-space: nowrap;
     overflow-x:scroll;
 }
@@ -56,7 +62,7 @@
 }
 .time-over{
     max-width:280px;
-    height:170px;
+    height:max-content;
     white-space: nowrap;
     overflow-x:scroll;
 }

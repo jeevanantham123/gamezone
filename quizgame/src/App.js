@@ -12,6 +12,8 @@ import Startgame from './components/startgame';
 import GameScreen from './components/gamescreen';
 import Winner from './components/winner';
 import Loser from './components/loser';
+import AdminGames from './components/adminGames';
+import Adminpanel from './components/adminpanel';
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
       <Route path="/gamescreen" exact component={GameScreen}/>
       <Route path="/winner" exact component={Winner}/>
       <Route path="/betterluck" exact component={Loser}/>
+      <Route path="/admin/adminGames" exact component={AdminGames}/>
+      <Route path="/admin/adminPanel" exact component={Adminpanel}/>
       </div>
    </Router>
   );
