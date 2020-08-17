@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import '../css/preview.css';
 import axios from 'axios';
+import backspace from '../images/ic-backspace@3x.png';
+
 export default class Preview extends Component {
     constructor(props){
         super(props);
@@ -20,6 +22,12 @@ export default class Preview extends Component {
             preview : this.props.location.state.preview
         }
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleBackSpace =  this.handleBackSpace.bind(this);
+
+    }
+    handleBackSpace(e){
+        e.preventDefault();
+        this.props.history.goBack();
     }
     handleSubmit(e){
         e.preventDefault();
@@ -32,8 +40,13 @@ export default class Preview extends Component {
     render() {
         return (
             <div className ="preview">
-                <h4 style={{textAlign:"center"}}>Preview</h4>
                 <form>
+                <div className="back-button" onClick={this.handleBackSpace}>
+                        <img src={backspace} alt="back"/>
+                        &nbsp;
+                        <h3 style={{marginLeft:"50px",position:"absolute"}}>Preview</h3>
+                </div>
+                <br/>
                 <FormGroup>
                     <ControlLabel>Game Name</ControlLabel>
                     <FormControl
@@ -101,13 +114,13 @@ export function QuestionsList(props) {
     const questions = props.questions;
     const listItems = questions.map((que) =>
       <li key={que['id']}>
-          Question:&nbsp;<input type="text" value={que['question']}/>
+          Question:<br/><input type="text" value={que['question']}/>
           <br/>
-          Answer:&nbsp;<input type="text" value={que['answer']}/>
+          Answer:<br/><input type="text" value={que['answer']}/>
           <br/>
-          Image:&nbsp;<input type="text" value={que['image']}/>
+          Image:<br/><input type="text" value={que['image']}/>
           <br/>
-          shuffledAnswer:&nbsp;<input type="text" value={que['shuffledAnswer']}/>
+          shuffledAnswer:<br/><input type="text" value={que['shuffledAnswer']}/>
       </li>
     );
     return (

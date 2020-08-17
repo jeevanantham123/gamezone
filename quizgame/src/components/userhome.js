@@ -1,7 +1,7 @@
 import React, { Component} from 'react'
 import axios from 'axios';
 import '../css/userhome.css';
-import gaming from '../images/gaming.gif';
+import gaming from '../images/beautyPuzzle.gif';
 //import comingsoon from '../images/comingsoon.gif';
 import {Button} from 'react-bootstrap';
 import { FaForward , FaPlayCircle, FaBackward} from 'react-icons/fa';
@@ -23,7 +23,10 @@ export default class UserHome extends Component {
     }
     componentDidMount(){
         const now = new Date();
-        axios.get('http://localhost:5000/game/',{
+       
+        const sendGetRequest = async () => {
+            try{
+                await axios.get('http://localhost:5000/game/',{
             withCredentials:true
         })
         .then( res => {
@@ -47,7 +50,12 @@ export default class UserHome extends Component {
             }
             window.localStorage.setItem('sessionID' , res.data.sessionID);
         });
-       
+            }
+            catch(err){
+                console.log(err);
+            }
+        }  
+         sendGetRequest();    
     }
 
     handleStartGame(id){
@@ -62,8 +70,8 @@ export default class UserHome extends Component {
     render() {
         return (
             <div className="user-home">
+                <Banner/>
                 <div className="games-screen">
-                    <Banner/>
                     <b>Coming Soon&nbsp;<FaForward/></b>
                         {
                          this.state.isLoaded ?
