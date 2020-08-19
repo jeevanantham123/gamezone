@@ -77,7 +77,6 @@ export default class GameScreen extends Component {
                     </div>
                     :
                     <div>
-                    <Banner/>
                     <div id="confirm-quit">
                         <img src={quit} alt=""/>
                         <br/>
@@ -218,7 +217,7 @@ export function ShuffledAnswerBlock(props){
         if(status){
         }
         else{
-           TimeOut();
+           // TimeOut();
         }
     }, 20000);
     const TimeOut = () => {
