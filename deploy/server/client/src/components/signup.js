@@ -70,7 +70,7 @@ export default class Signup extends Component{
             "email":this.state.email,
             "password":this.state.password
         }
-        axios.post('api/admin/signup',user)
+        axios.post('https://gamezonedemo.herokuapp.com/api/admin/signup',user)
         .then(res => {
             if(res.data === 'success'){
                 history.push({

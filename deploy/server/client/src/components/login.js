@@ -32,7 +32,7 @@ export default class Login extends Component{
             "email":this.state.email,
             "password":this.state.password
         }
-        axios.post('api/admin/login',user)
+        axios.post('https://gamezonedemo.herokuapp.com/api/admin/login',user)
         .then(res => {
             if(res.data['status'] === "success"){
                 console.log(res.data);
@@ -45,7 +45,7 @@ export default class Login extends Component{
             if(res.data === "failure")
              this.setState({err:'Invalid credientials'});
         })
-        .catch(error => console.log(error));
+        .catch(error => this.setState({err:'Invalid credientials'}));
     }
     render(){
         return(

@@ -3,11 +3,12 @@
     text-align: center;
     height:100%;
     color: white;
+    overflow-y: scroll;
 }
 
 .games-screen{
+    padding: 5px;
     overflow-y:scroll;
-    height:500px;
     text-align: left;
     display: inline-block;
 }
@@ -36,7 +37,21 @@
     width: 200px;
     height:max-content;
     text-align: center;
-    margin-left: 10px;
+}
+
+.carousel-root{
+    max-width: 300px;
+}
+.carousel-root .carousel .slide {
+    background: rgb(7, 2, 29);
+}
+
+.carousel .carousel-status{
+    display: none;
+}
+
+.carousel .thumbs-wrapper{
+    display: none;
 }
 
 .inside-element img{
@@ -44,7 +59,7 @@
     width:100%;
     height:100px;
     border-radius:10px;
-    padding: 2px;
+    padding:0px;
 }
 .on-going{
     max-width:280px;
@@ -52,13 +67,18 @@
     white-space: nowrap;
     overflow-x:scroll;
 }
-.on-going button{
+.carousel .inside-element #butt{
+    width: 100%;
     margin-top:3px;
     font-weight: bold;
     font-size: 14px;
     padding-top:2px;
     padding-bottom:2px;
     color: white;
+    background-color: rgb(252, 9, 159);
+}
+.control-dots{
+    display:none;
 }
 .time-over{
     max-width:280px;
@@ -67,11 +87,37 @@
     overflow-x:scroll;
 }
 
+.on-going .inside-element img{
+    width:100%;
+    border-radius:0 0 5px 5px;
+    margin-top:-1px;
+}
+
+.coming-soon .inside-element img{
+    width:100%;
+    border-radius:0 0 5px 5px;
+    margin-top:-1px;
+}
+
+.coming-soon .inside-element{
+    padding: 5px;
+}
+
 
 .timer{
     margin-top:5px;
     font-weight: bold;
     font-size:12px;
+}
+#game-ending{
+    padding:2px;
+    width: 100%;
+    font-size: 12px;
+    background-color: rgb(252, 159, 9);
+    color: rgb(5, 5, 5);
+    font-weight: bold;
+    border-radius:5px 5px 0 0;
+    border-bottom: 0;
 }
 
 @media only screen and (min-width:600px) {
@@ -95,6 +141,9 @@
         max-width: 100%;
     }
     .time-over{
+        max-width: 100%;
+    }
+    .carousel-root{
         max-width: 100%;
     }
 }

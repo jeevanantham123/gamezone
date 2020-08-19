@@ -3,7 +3,7 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import '../css/preview.css';
 import axios from 'axios';
 import backspace from '../images/ic-backspace@3x.png';
-
+import history from '../history';
 export default class Preview extends Component {
     constructor(props){
         super(props);
@@ -32,9 +32,12 @@ export default class Preview extends Component {
     handleSubmit(e){
         e.preventDefault();
         const game = this.props.location.state.data;
-        axios.post('api/game/add',game)
+        axios.post('https://gamezonedemo.herokuapp.com/api/game/add',game)
         .then(res => {
-            this.props.history.goBack();
+            history.push({
+                pathname :'/admin/adminPanel',
+                state:{username: this.state.gameCreator}
+            });
         });
     }
     render() {

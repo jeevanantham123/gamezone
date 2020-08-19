@@ -8,6 +8,8 @@ import { FaForward , FaPlayCircle, FaBackward} from 'react-icons/fa';
 import history from '../history';
 import BeatLoader from "react-spinners/ClipLoader";
 import Countdown from 'react-countdown';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
 
 export default class UserHome extends Component {
     constructor(props){
@@ -26,7 +28,7 @@ export default class UserHome extends Component {
        
         const sendGetRequest = async () => {
             try{
-                await axios.get('api/game/',{
+                await axios.get('https://gamezonedemo.herokuapp.com/api/game/getGame',{
             withCredentials:true
         })
         .then( res => {
@@ -72,10 +74,10 @@ export default class UserHome extends Component {
             <div className="user-home">
                 <Banner/>
                 <div className="games-screen">
-                    <b>Coming Soon&nbsp;<FaForward/></b>
+                    <b>Live Games&nbsp;<FaPlayCircle/></b>
                         {
                          this.state.isLoaded ?
-                        <ComingSoon games={this.state.ComingSoonGames}/>:
+                        <OnGoing games={this.state.OnGoingGames} handleStartGame = {this.handleStartGame}/>:
                         <div>
                             <BeatLoader
                             size={50}
@@ -84,10 +86,10 @@ export default class UserHome extends Component {
                             />
                         </div>
                         }
-                    <b>On Going Now&nbsp;<FaPlayCircle/></b>
+                    <b>Coming Soon&nbsp;<FaForward/></b>
                         {
                          this.state.isLoaded ?
-                        <OnGoing games={this.state.OnGoingGames} handleStartGame = {this.handleStartGame}/>:
+                        <ComingSoon games={this.state.ComingSoonGames}/>:
                         <div>
                             <BeatLoader
                             size={50}
@@ -108,7 +110,6 @@ export default class UserHome extends Component {
                             />
                         </div>
                         }
-                    
                 </div>
             </div>
         )
@@ -121,23 +122,19 @@ export function ComingSoon(props){
     games.forEach(game => {
         gamesList.push( 
         <div key={game._id} className="inside-element">
-            <h6>{game.gameName}</h6>
-            <img src={game.gameImage} alt="not Available!"/>
-            <br/>
-                    <div className="timer">
-                        Starts in:
-                        &nbsp;
-                        <Countdown
-                        date={game.startTime}
-                        renderer = {(props)=> <span >{props.days}d {props.hours}h {props.minutes}m {props.seconds}s</span>}
-                        />
-                    </div>
+          <Countdown
+           date={game.startTime}
+           renderer = {(props)=>
+           <div id="game-ending">
+           <span >Starts in:&nbsp;{props.days}d {props.hours}h {props.minutes}m {props.seconds}s</span></div>}
+            />
+           <img src={game.gameImage} alt="not Available!"/>   
         </div>)
     });
     return(
-        <div className="coming-soon">
+        <Carousel className="coming-soon">
             {gamesList}
-        </div>
+        </Carousel>
     )
 }
 
@@ -146,17 +143,20 @@ export function OnGoing(props){
     const gamesList = [];
     games.forEach(game => {
         gamesList.push( 
-        <div key={game._id} className="inside-element">
-            <h6>{game.gameName}</h6>
+        <div key={game._id} className="inside-element" style={{padding:"5px"}}>
+            <Countdown
+                    date={game.endTime}
+                    renderer = {(props)=> <div id="game-ending">Game Ends in: {props.days}d {props.hours}h {props.minutes}m {props.seconds}s</div>}
+            />
             <img src={game.gameImage} alt="not Available!"/>
             <br/>
-            <Button className="bg-success" type="button" onClick={()=> props.handleStartGame(game._id)}>Play Now</Button>
+            <Button  id="butt" type="button" onClick={()=> props.handleStartGame(game._id)}>Play Now</Button>
         </div>)
     });
     return(
-        <div className="on-going">
+            <Carousel className="on-going">
             {gamesList}
-        </div>
+            </Carousel>
     )
 }
 
@@ -172,9 +172,9 @@ export function PastGames(props){
         </div>)
     });
     return(
-        <div className="time-over">
+        <Carousel>
             {gamesList}
-        </div>
+        </Carousel>
     )
 }
 
@@ -186,5 +186,32 @@ export function Banner(props){
         </div>
     )
 }
+/*
+class SimpleSlider extends React.Component {
+    render() {
 
+      return (
+        <Carousel>
+          <div>
+            <h3>1</h3>
+          </div>
+          <div>
+            <h3>2</h3>
+          </div>
+          <div>
+            <h3>3</h3>
+          </div>
+          <div>
+            <h3>4</h3>
+          </div>
+          <div>
+            <h3>5</h3>
+          </div>
+          <div>
+            <h3>6</h3>
+          </div>
+        </Carousel>
+      );
+    }
+  }*/
 

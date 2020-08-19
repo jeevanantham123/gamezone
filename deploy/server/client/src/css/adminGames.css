@@ -13,8 +13,12 @@
     height:100%;
     border: 2px solid rgb(151, 3, 250);
     border-radius: 5px;
+    overflow-y: scroll;
 }
 
+.inner-panel::-webkit-scrollbar{
+    display: none;
+}
 .games{
     padding: 10px;
     font-size: larger;

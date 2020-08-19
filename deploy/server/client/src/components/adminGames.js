@@ -17,12 +17,13 @@ export default class AdminGames extends Component {
             games : []
         };
         const username = this.state.username;
-        axios.post('api/game/adminGames',{username})
+        axios.post('https://gamezonedemo.herokuapp.com/api/game/adminGames',{username})
         .then( res => {
             this.setState({
                 games: res.data
             });
         });
+        console.log(this.state.games);
         this.handlePreview = this.handlePreview.bind(this);
         this.handleBackSpace =  this.handleBackSpace.bind(this);
     }
@@ -99,7 +100,7 @@ export function Winners(props){
         );
     });
     return(
-        <ul style={{fontSize:"15px"}}>
+        <ul style={{fontSize:"13px"}}>
             {winnersList}
         </ul>
     )

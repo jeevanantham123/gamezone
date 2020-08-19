@@ -33,10 +33,10 @@ export default class Startgame extends Component {
         return (
             <div className="game-choosen">
                 <div className="inner-game-choosen">
-                <Banner/>
                 <div className="back-button" onClick={this.handleBackSpace}>
                     <img src={backspace} alt="back"/>
                 </div>
+                <Banner/>
                 <div className="game-banner">
                     <Countdown
                     date={this.state.game.endTime}
@@ -55,11 +55,12 @@ export default class Startgame extends Component {
                          <img  src={gamepad} alt=""/>
                     </div>
                 </div>
-                <div id="play-button">
-                <Button  className="bg-warning" type="button" onClick={this.handleStartGame}>
-                    Play Now!
-                </Button>
                 </div>
+                <br/>
+                <div id="play-button">
+                <Button  type="button" onClick={this.handleStartGame}>
+                    START GAME
+                </Button>
                 </div>
             </div>
         )

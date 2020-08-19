@@ -1,11 +1,7 @@
 const router = require('express').Router();
 let Admin = require('../models/admin.model');
 
-router.route('/').get((req, res) => {
-  Admin.find()
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+
 
 router.route('/signup').post((req, res) => {
   const username = req.body.username;
@@ -33,7 +29,7 @@ router.route('/login').post((req, res) => {
       
   })
   .catch((err) =>{
-    console.log(err);
+    res.json("failure");
   })
 })
 

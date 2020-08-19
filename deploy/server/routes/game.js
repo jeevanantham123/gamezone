@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let Game = require('../models/game.model');
-router.route('/').get((req, res) => {
+router.route('/getGame').get((req, res) => {
+    req.session.userAction = true;
     req.session.save();
     req.session.cookie.expires = false;
     req.session.cookie.maxAge = 5000000000*60*10000;
@@ -98,7 +99,6 @@ router.route('/winner').post((req,res) => {
         res.status(200).json('success');
     }
     else{
-        req.session.destroy();
         res.status(400).json('un-authorize');
     }
 });

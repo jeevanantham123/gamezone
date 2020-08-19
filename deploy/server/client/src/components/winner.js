@@ -39,7 +39,7 @@ export default class Winner extends Component {
                     count:window.localStorage.getItem(this.props.location.state.gname)
                 }
             };
-            axios.post('api/game/winner',body,{
+            axios.post('https://gamezonedemo.herokuapp.com/api/game/winner',body,{
                 withCredentials:true
             })
             .then(res => {
@@ -66,7 +66,7 @@ export default class Winner extends Component {
                     count:window.localStorage.getItem(this.props.location.state.gname)
                 }
             };
-            axios.post('api/game/winner',body,{
+            axios.post('https://gamezonedemo.herokuapp.com/api/game/winner',body,{
                 withCredentials:true
             })
             .then(res => {
@@ -104,7 +104,6 @@ export default class Winner extends Component {
                     <FormGroup controlId="email" bsSize="large">
                     <ControlLabel>Email</ControlLabel>
                     <FormControl
-                        autoFocus
                         type="email"
                         value={this.state.email}
                         onChange={e => this.handleChangeEmail(e)}

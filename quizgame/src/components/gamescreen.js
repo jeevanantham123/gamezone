@@ -28,8 +28,6 @@ export default class GameScreen extends Component {
         e.preventDefault();
         const confirmDiv= document.getElementById('confirm-quit');
         confirmDiv.style.display='initial';
-        const innerDiv=document.getElementById('inner-gameScreen');
-        innerDiv.style.display = 'none';
     }
     handleAnswered(e){
         if((this.state.id+1) < this.state.game.questions.length){
@@ -60,8 +58,6 @@ export default class GameScreen extends Component {
     handleCancelQuit(e){
         const confirmDiv= document.getElementById('confirm-quit');
         confirmDiv.style.display='none';
-        const innerDiv=document.getElementById('inner-gameScreen');
-        innerDiv.style.display = 'inline-block';
     }
     componentDidMount(){
         setTimeout(() => {
@@ -90,12 +86,9 @@ export default class GameScreen extends Component {
                         <Button id="cq-button" type="button" onClick={this.handleConfrimQuit}>Confirm</Button>
                         <Button id="cq=cancel" onClick={this.handleCancelQuit}>Cancel</Button>
                     </div>
-                    <div id="inner-gameScreen" style={{background:this.state.game.gameBgColor}}>
-                    <div className="gback-button" onClick={this.handleBackSpace}>
-                        <img src={backspace} alt="back"/>
-                    </div>
+                    <div id="inner-gameScreen" style={{background:"white"}}>
                     <div className="game-main">
-                        <GameArea game={this.state.game} id={this.state.id} handleAnswered={this.handleAnswered}/>
+                        <GameArea game={this.state.game} id={this.state.id} handleAnswered={this.handleAnswered} handleBackSpace={this.handleBackSpace}/>
                     </div>
                 </div>
                 </div>
@@ -149,7 +142,10 @@ export function GameArea(props){
         <div className="block">
             <div className="block-topper">
                <div className="que-num">
-               Question {id+1} of {game.questions.length}
+               <div className="gback-button" onClick={props.handleBackSpace}>
+                    <img src={backspace} alt="back"/>
+                    <p style={{display:"inline-block",marginLeft:"2px",fontWeight:"bold"}}>Question {id+1} of {game.questions.length}</p>
+                </div>
                </div> 
             <div className="question-timer">
                 <Timer
@@ -216,10 +212,10 @@ export function ShuffledAnswerBlock(props){
     var clickedCount = 0;
     shuffledAnswer = shuffledAnswer.trim();
     const answer = props.answer;
-    var staus = false;
+    var status = false;
     var tempAnswer = '';
     var checkTimer= setTimeout(() => {
-        if(staus){
+        if(status){
         }
         else{
            TimeOut();
@@ -239,25 +235,23 @@ export function ShuffledAnswerBlock(props){
             answerdiv[0].childNodes[clickedCount].value = clickedChar;
             clickedCount++;
             tempAnswer = tempAnswer + clickedChar;
-            if(tempAnswer.toLowerCase() === answer){
-                props.answered();
-                staus = true;
-                clearTimeout(checkTimer);
-            }
-            else{   
-                if(tempAnswer.length === answer.length){
-                    if(tempAnswer.toLowerCase() !== answer){
-                        clearTimeout(checkTimer);
-                        history.push({
-                            pathname:'/betterluck',
-                            state : {'failure' : 'seems like wrong answer!' ,'name':props.gname}
-                        });
-                    }
-                }
-            }
+            
         }
     }
-    
+    const checkAnswer = () => {
+        if(tempAnswer.toLowerCase() === answer){
+            props.answered();
+            status = true;
+            clearTimeout(checkTimer);
+        }
+        else{   
+            clearTimeout(checkTimer);
+                    history.push({
+                        pathname:'/betterluck',
+                        state : {'failure' : 'seems like wrong answer!' ,'name':props.gname}
+                    });
+        }
+    }
     const validation = () => {
         if(clickedCount < shuffledAnswer.length){
             return true
@@ -292,6 +286,29 @@ export function ShuffledAnswerBlock(props){
             {answerDivs}
             <br/>
             <button id="delete"  type="button"  onClick={deletefunc}>Delete<FaReply/></button>
+            &nbsp;
+            <button id="delete"  type="button" onClick={checkAnswer}>Submit</button>
         </div>
     )
 }
+
+
+/*
+const s= clickedCount-1;
+        //clickedCount = 0;
+        // tempAnswer = '';
+        const aElements = answerdiv[0].childNodes;
+        const sanswerdiv = document.getElementsByClassName('sanswer');
+        const sElements = sanswerdiv[0].childNodes;
+        for (let index = 0; index < shuffledAnswer.length; index++) {
+            const element = shuffledAnswer[index];
+            aElements[index].value = '';
+            sElements[index].value = element.toUpperCase();
+        } 
+        console.log(s);
+        const ind = shuffledAnswer.indexOf(tempAnswer[s].toLowerCase());
+        sElements[ind].value = aElements[s].value;
+        aElements[s].value = '';
+        tempAnswer = tempAnswer.slice(0,s);
+        clickedCount--;
+*/

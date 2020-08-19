@@ -99,7 +99,7 @@ export function Winners(props){
         );
     });
     return(
-        <ul style={{fontSize:"15px"}}>
+        <ul style={{fontSize:"13px"}}>
             {winnersList}
         </ul>
     )
