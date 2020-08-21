@@ -86,6 +86,7 @@ export default class UserHome extends Component {
                             />
                         </div>
                         }
+                        <br/>
                     <b>Coming Soon&nbsp;<FaForward/></b>
                         {
                          this.state.isLoaded ?
@@ -98,6 +99,7 @@ export default class UserHome extends Component {
                             />
                         </div>
                         }
+                        <br/>
                     <b>Past Games&nbsp;<FaBackward/></b>
                         {
                          this.state.isLoaded ?

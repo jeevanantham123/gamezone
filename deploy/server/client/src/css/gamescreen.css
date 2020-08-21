@@ -49,7 +49,7 @@
 .inner-counter #tick{
     height:30px;
     width:30px;
-    margin-top:-30px;
+    margin-top:-10px;
 }
 
 .inner-counter p{
@@ -61,6 +61,7 @@
 }
 
 .game-main .block .block-topper{
+    margin-top: 10px;
     width:280px;
     font-weight: bold;
     height:50px;
@@ -72,14 +73,15 @@
     width: max-content;
 }
 .question-timer{
+    border: 1px solid blue;
     float: right;
     margin-left:50px;
     text-align: center;
-    width:80px;
-    padding:2px;
+    width: 80px;
     border-radius:30px;
     background-color: yellow;
     color: blue;
+    font-size: 15px;
 }
 
 .question{
@@ -93,10 +95,20 @@
     border-radius: 10px;
     background-color: white;
 }
-.questionImage img{
+.questionImage #qi{
     border: thin;
-    width:100px;
-    height:100px;
+    width:150px;
+    height:160px;
+    margin-top: -150px;
+}
+
+#clock{
+    width:18px;
+    height:18px;
+}
+
+.questionImage #poppers{
+    width: 100%;
 }
 
 .answer{
@@ -105,12 +117,12 @@
 
 .inner-answer-div{
     display: inline-block;
-    margin-left:10px;
+    margin-left:5px;
     margin-top:5px;
     font-weight: bold;
     text-align: center;
-    width:40px;
-    height:40px;
+    width:35px;
+    height:35px;
     border:2px solid palevioletred;
     border-radius: 5px;
     background-color: white;
@@ -119,7 +131,7 @@
 
 .sanswer{
     height:max-content;
-    width:280px;
+    width:290px;
     text-align: center;
     position: absolute;
     bottom: 0px;
@@ -136,24 +148,36 @@
     text-align: center;
     font-weight: bold;
     display: inline-block;
-    margin-left:10px;
-    width:40px;
-    height:40px;
+    margin-left:5px;
+    width:35px;
+    height:35px;
     border:2px solid palevioletred;
     border-radius: 5px;
     background-color: white;
     outline: none;
 }
 
-.sanswer button{
+.sanswer #submit{
     color: white;
     padding: 5px;
+    width:120px;
     font-weight: bold;
     border-radius:5px;
     margin-top: 10px;
     outline: none;
     border: 1px solid white;
     background-color: rgb(241, 7, 175);
+}
+.sanswer #delete{
+    color: #f107af;
+    padding: 5px;
+    width:120px;
+    font-weight: bold;
+    border-radius:5px;
+    margin-top: 10px;
+    outline: none;
+    border: 1px solid rgb(241, 7, 175);
+    background-color: white;
 }
 
 #quit-game{
@@ -172,9 +196,9 @@
     background-color: white;
     border-radius:10px;
     position: absolute;
-    margin-top:60px;
+    margin-top:120px;
     margin-left:5px;
-    width:270px;
+    width:280px;
     height:250px;
     padding:20px;
     box-shadow: 2px 2px 2px 2px rgb(245, 47, 212)
@@ -194,9 +218,29 @@
     color: white;
 }
 
-
+#inner-gameScreen{
+    color: white;
+}
 @media screen and (max-width: 400px) {
     .white-screen{
         width: 100%;
+    }
+}
+
+@media screen and (max-height:550px){
+    .questionImage #qi{
+        width: 110px;
+        height: 120px;
+        margin-top: -100px;
+    }
+    .questionImage #poppers{
+        height:120px;
+    }
+
+    #confirm-quit{
+        margin-top: 80px;
+    }
+    .white-screen{
+        margin-top: 80px;
     }
 }

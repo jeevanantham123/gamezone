@@ -41,10 +41,11 @@ export default class AdminGames extends Component {
         return (
             <div className="panel">
                 <div className="inner-panel">
-                <h4 style={{textAlign:"center"}}>Your Games</h4>
+                <h4 style={{textAlign:"center"}}>
                 <div className="back-button" onClick={this.handleBackSpace}>
                     <img src={backspace} alt="back"/>
                 </div>
+                    Your Games</h4>
                 {this.state.games.length > 0 ?
                 <GameBlock games={this.state.games} handlePreview={this.handlePreview}/>:
                 <div>

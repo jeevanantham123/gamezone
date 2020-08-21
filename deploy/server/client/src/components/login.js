@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button, FormGroup, FormControl, ControlLabel, HelpBlock} from "react-bootstrap";
 import '../css/login.css'
 import axios from 'axios';
+import {FaHome} from 'react-icons/fa';
 import history from '../history';
 // import banner from '../images/banner.jpg';
 export default class Login extends Component{
@@ -16,6 +17,7 @@ export default class Login extends Component{
         this.handleSubmit = this.handleSubmit.bind(this);
         this.setEmail = this.setEmail.bind(this);
         this.setPassword = this.setPassword.bind(this);
+        this.handleHome = this.handleHome.bind(this);
     }
     setEmail(value){
         this.setState({email: value});
@@ -46,6 +48,10 @@ export default class Login extends Component{
              this.setState({err:'Invalid credientials'});
         })
         .catch(error => this.setState({err:'Invalid credientials'}));
+    }
+    handleHome(e){
+        e.preventDefault();
+        history.push('/');
     }
     render(){
         return(
@@ -78,6 +84,7 @@ export default class Login extends Component{
                     Login
                     </Button><br/>
                     <Link to="/admin/signup">New user? Sign up!</Link>
+                     <Button id="home" type="button" onClick={this.handleHome}>Back to Home<FaHome/></Button>
                     </div>
                 </form>
             </div>

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let Game = require('../models/game.model');
 router.route('/').get((req, res) => {
+    req.session.user = true;
     req.session.save();
     req.session.cookie.expires = false;
     req.session.cookie.maxAge = 5000000000*60*10000;

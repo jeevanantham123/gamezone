@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import '../css/gamescreen.css';
 import {Button} from 'react-bootstrap';
 import history from '../history';
-import {Banner} from './userhome';
+// import {Banner} from './userhome';
 import backspace from '../images/wrong@3x.png';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import Timer from 'react-compound-timer';
 import {FaReply} from 'react-icons/fa';
 import Tick from '../images/correct@3x.png';
 import quit from '../images/quit-emoji@3x.png';
+import poppers from '../images/confetti-3-x.png'
+import clock from '../images/clock.gif';
 export default class GameScreen extends Component {
     constructor(props){
         super(props);
@@ -77,7 +79,6 @@ export default class GameScreen extends Component {
                     </div>
                     :
                     <div>
-                    <Banner/>
                     <div id="confirm-quit">
                         <img src={quit} alt=""/>
                         <br/>
@@ -86,7 +87,7 @@ export default class GameScreen extends Component {
                         <Button id="cq-button" type="button" onClick={this.handleConfrimQuit}>Confirm</Button>
                         <Button id="cq=cancel" onClick={this.handleCancelQuit}>Cancel</Button>
                     </div>
-                    <div id="inner-gameScreen" style={{background:"white"}}>
+                    <div id="inner-gameScreen">
                     <div className="game-main">
                         <GameArea game={this.state.game} id={this.state.id} handleAnswered={this.handleAnswered} handleBackSpace={this.handleBackSpace}/>
                     </div>
@@ -117,7 +118,7 @@ export function RoundCountdown(props){
     }
     if(text === 'question-counter'){
         return(
-            <div>
+            <div style={{padding:"50px"}}>
                 <p style={{color:"green"}}>Correct Answer</p>
                 <img id="tick" src={Tick} alt=""/>
                 <CountdownCircleTimer
@@ -154,6 +155,7 @@ export function GameArea(props){
                 >
                     {() => (
                         <React.Fragment>
+                            <img id="clock" src={clock} alt=""/>
                             <Timer.Seconds />s left
                         </React.Fragment>
                     )}
@@ -181,7 +183,8 @@ export function QuestionImage(props){
     const questionImage = props.image;
     return(
         <div className="questionImage">
-            <img src={questionImage} alt=""/>
+            <img id="poppers" src={poppers} alt=""/>
+            <img id="qi" src={questionImage} alt=""/>
         </div>
     )
 }
@@ -192,9 +195,16 @@ export function AnswerBlock(props){
     const answerDivs = [];
     for (let index = 0; index < answer.length; index++) {
         const element = answer[index];
-        answerDivs.push(
-            <input type="text" key={element} className="inner-answer-div" readOnly/>
-        );
+        if(element !== " "){
+            answerDivs.push(
+                <input type="text" key={index} className="inner-answer-div" readOnly/>
+            );
+        }
+        if(element === " "){
+            answerDivs.push(
+                <br key={index}/>
+            );
+        }
         
     } 
     return(
@@ -218,7 +228,7 @@ export function ShuffledAnswerBlock(props){
         if(status){
         }
         else{
-           TimeOut();
+            TimeOut();
         }
     }, 20000);
     const TimeOut = () => {
@@ -235,7 +245,11 @@ export function ShuffledAnswerBlock(props){
             answerdiv[0].childNodes[clickedCount].value = clickedChar;
             clickedCount++;
             tempAnswer = tempAnswer + clickedChar;
-            
+            if(tempAnswer.toLowerCase() === splitAns[0]){
+                //  console.log(tempAnswer+' '+splitAns[0]);
+                  tempAnswer = tempAnswer + " ";
+                  clickedCount++;
+            }
         }
     }
     const checkAnswer = () => {
@@ -275,10 +289,16 @@ export function ShuffledAnswerBlock(props){
     const answerDivs = [];
     for (let index = 0; index < shuffledAnswer.length; index++) {
         const element = shuffledAnswer[index];
-        answerDivs.push(
-            <input type="text"  key={element} className="inner-sanswer-div" value={element.toUpperCase()}
-            onClick={(e) => {userClicked(e)}}  readOnly />
-        );
+        if(element !== " "){
+
+            answerDivs.push(
+                <input type="text"  key={index} className="inner-sanswer-div" value={element.toUpperCase()}
+                onClick={(e) => {userClicked(e)}}  readOnly />
+            );
+            }
+            if(element === " "){
+               answerDivs.push(<br key={index}/>);
+            }
         
     } 
     return(
@@ -287,7 +307,7 @@ export function ShuffledAnswerBlock(props){
             <br/>
             <button id="delete"  type="button"  onClick={deletefunc}>Delete<FaReply/></button>
             &nbsp;
-            <button id="delete"  type="button" onClick={checkAnswer}>Submit</button>
+            <button id="submit"  type="button" onClick={checkAnswer}>Submit</button>
         </div>
     )
 }

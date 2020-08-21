@@ -58,6 +58,14 @@ export default class Winner extends Component {
         if(this.props.location.state === undefined){
             window.location.href ="/";
         } 
+        if(window.localStorage.getItem(this.props.location.state.gname) === null){
+            window.localStorage.setItem(this.props.location.state.gname,1);
+        }
+        else{
+            var count = window.localStorage.getItem(this.props.location.state.gname);
+            count ++;
+            window.localStorage.setItem(this.props.location.state.gname,count);
+        }
         if(window.localStorage.getItem('email') !== null){
             const body = {
                 email: window.localStorage.getItem('email'),
@@ -76,14 +84,7 @@ export default class Winner extends Component {
             }); 
         }
     
-        if(window.localStorage.getItem(this.props.location.state.gname) === null){
-            window.localStorage.setItem(this.props.location.state.gname,1);
-        }
-        else{
-            var count = window.localStorage.getItem(this.props.location.state.gname);
-            count ++;
-            window.localStorage.setItem(this.props.location.state.gname,count);
-        }
+        
     }
     render() {
         return (

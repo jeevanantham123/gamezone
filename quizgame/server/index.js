@@ -20,8 +20,8 @@ var store = new MongoDBStore({
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.sessionMiddleware = session({
   secret : 'abcd',
-  resave: true,
-  saveUninitialized:true,
+  resave: false,
+  saveUninitialized:false,
   store : store,
   cookie : {
     maxAge:null

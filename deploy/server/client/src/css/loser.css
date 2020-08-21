@@ -50,3 +50,9 @@
     text-align: center;
 }
 
+@media screen and (max-height:550px){
+    .inner-loser{
+        margin-top: 80px;
+    }
+}
+

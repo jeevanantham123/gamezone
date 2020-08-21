@@ -61,6 +61,7 @@
 }
 
 .game-main .block .block-topper{
+    margin-top: 10px;
     width:280px;
     font-weight: bold;
     height:50px;
@@ -93,10 +94,20 @@
     border-radius: 10px;
     background-color: white;
 }
-.questionImage img{
+.questionImage #qi{
     border: thin;
-    width:100px;
-    height:100px;
+    width:150px;
+    height:160px;
+    margin-top: -150px;
+}
+
+#clock{
+    width:20px;
+    height:20px;
+}
+
+.questionImage #poppers{
+    width: 100%;
 }
 
 .answer{
@@ -105,12 +116,12 @@
 
 .inner-answer-div{
     display: inline-block;
-    margin-left:10px;
+    margin-left:5px;
     margin-top:5px;
     font-weight: bold;
     text-align: center;
-    width:40px;
-    height:40px;
+    width:35px;
+    height:35px;
     border:2px solid palevioletred;
     border-radius: 5px;
     background-color: white;
@@ -119,14 +130,14 @@
 
 .sanswer{
     height:max-content;
-    width:280px;
+    width:290px;
     text-align: center;
     position: absolute;
     bottom: 0px;
     margin-top:30px;
     background: white;
     border-radius: 10px;
-    padding: 5px;
+    padding:5px;
 }
 
 .inner-sanswer-div{
@@ -136,24 +147,36 @@
     text-align: center;
     font-weight: bold;
     display: inline-block;
-    margin-left:10px;
-    width:40px;
-    height:40px;
+    margin-left:5px;
+    width:35px;
+    height:35px;
     border:2px solid palevioletred;
     border-radius: 5px;
     background-color: white;
     outline: none;
 }
 
-.sanswer button{
+.sanswer #submit{
     color: white;
     padding: 5px;
+    width:120px;
     font-weight: bold;
     border-radius:5px;
     margin-top: 10px;
     outline: none;
     border: 1px solid white;
     background-color: rgb(241, 7, 175);
+}
+.sanswer #delete{
+    color: #f107af;
+    padding: 5px;
+    width:120px;
+    font-weight: bold;
+    border-radius:5px;
+    margin-top: 10px;
+    outline: none;
+    border: 1px solid rgb(241, 7, 175);
+    background-color: white;
 }
 
 #quit-game{
@@ -194,7 +217,9 @@
     color: white;
 }
 
-
+#inner-gameScreen{
+    color: white;
+}
 @media screen and (max-width: 400px) {
     .white-screen{
         width: 100%;

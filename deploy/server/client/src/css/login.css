@@ -30,3 +30,8 @@ form{
     font-weight: bold;
     padding: 20px;
 }
+
+#home{
+    text-decoration: underline;
+    color: blue;
+}
