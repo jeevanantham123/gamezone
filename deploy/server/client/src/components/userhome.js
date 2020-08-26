@@ -34,6 +34,7 @@ export default class UserHome extends Component {
         .then( res => {
             if(res.data.games){
                 for (const iterator of res.data.games) {
+                    if(iterator.enable){
                     iterator.startTime = new Date(iterator.startTime);
                     iterator.endTime = new Date(iterator.endTime);
                     if(iterator.startTime > now){
@@ -45,6 +46,7 @@ export default class UserHome extends Component {
                     else{
                         this.state.OnGoingGames.push(iterator);
                     }
+                }
                 }
                 this.setState({
                     isLoaded : true

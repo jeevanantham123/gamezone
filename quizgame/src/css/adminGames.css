@@ -36,3 +36,14 @@
     float: right;
     background-color: white;
 }
+
+#endb{
+    font-weight: bold;
+    color: white;
+}
+
+#endb:focus{
+    outline: none;
+    box-shadow: none;
+}
+

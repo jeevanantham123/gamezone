@@ -11,6 +11,16 @@ import Tick from '../images/correct@3x.png';
 import quit from '../images/quit-emoji@3x.png';
 import poppers from '../images/confetti-3-x.png'
 import clock from '../images/clock.gif';
+import $ from 'jquery';
+import { fadeInUp } from 'react-animations';
+import Radium, {StyleRoot} from 'radium';
+ 
+const styles = {
+  fadeInUp: {
+    animation: 'x 1s',
+    animationName: Radium.keyframes(fadeInUp, 'fadeInup')
+  }
+}
 export default class GameScreen extends Component {
     constructor(props){
         super(props);
@@ -71,6 +81,7 @@ export default class GameScreen extends Component {
     render() {
         return (
             <div className="gameScreen">
+              <StyleRoot>
                 {this.state.timer ? 
                     <div className="white-screen">
                         <div className="inner-counter" >
@@ -79,7 +90,7 @@ export default class GameScreen extends Component {
                     </div>
                     :
                     <div>
-                    <div id="confirm-quit">
+                    <div id="confirm-quit" style={styles.fadeInUp}>
                         <img src={quit} alt=""/>
                         <br/>
                         Are you sure?
@@ -94,6 +105,7 @@ export default class GameScreen extends Component {
                 </div>
                 </div>
                 }
+             </StyleRoot>
             </div>
         )
     }
@@ -196,16 +208,22 @@ export function AnswerBlock(props){
     for (let index = 0; index < answer.length; index++) {
         const element = answer[index];
         if(element !== " "){
+            if(index === 0){
+                answerDivs.push(
+                    <input type="text" key={index} id={index} style={{background:"rgba(81, 231, 156, 0.76)"}} className="inner-answer-div" readOnly/>
+                );
+            }
+            else{
             answerDivs.push(
-                <input type="text" key={index} className="inner-answer-div" readOnly/>
+                <input type="text" key={index} id={index} className="inner-answer-div" readOnly/>
             );
+            }
         }
         if(element === " "){
             answerDivs.push(
                 <br key={index}/>
             );
         }
-        
     } 
     return(
         <div className="answer">
@@ -222,13 +240,16 @@ export function ShuffledAnswerBlock(props){
     var clickedCount = 0;
     shuffledAnswer = shuffledAnswer.trim();
     const answer = props.answer;
+    var splitAns = answer.split(" ");
     var status = false;
     var tempAnswer = '';
+    var clickedArr = [];
+    var AnswerClickedArr = [];
     var checkTimer= setTimeout(() => {
         if(status){
         }
         else{
-            TimeOut();
+          TimeOut();
         }
     }, 20000);
     const TimeOut = () => {
@@ -238,18 +259,61 @@ export function ShuffledAnswerBlock(props){
                 state : {'failure' : 'seems like time out!','name':props.gname}
         });
     }
-    const userClicked = (e) => {
+    setTimeout(() => {
+        $(".inner-answer-div").click(function() {
+            resetFunc($(this).attr("id"),this);
+        }); 
+    },500);
+    const resetFunc = (id,v) => {
+       if($(v).val() !== ''){
+        $(v).val('');
+        const sanswerdiv = document.getElementsByClassName('sanswer');
+        const sElements = sanswerdiv[0].childNodes;
+      //  console.log(id);
+       // console.log(clickedArr[id]);
+        sElements[clickedArr[id]].value = shuffledAnswer[clickedArr[id]].toUpperCase();
+        AnswerClickedArr.push(Number(id));
+       // answerdiv[0].childNodes[AnswerClickedArr[0]].style.background = "rgba(56, 246, 157, 0.931)";
+        AnswerClickedArr.sort(function(a, b){return a - b});
+     //   console.log(AnswerClickedArr);
+        }
+    };
+    const userClicked = (e,index) => {
         if(validation() && e.target.value !== ''){
             var clickedChar = e.target.value;
+            if(tempAnswer.length === splitAns[0].length){
+               // console.log(tempAnswer+' '+splitAns[0]);
+                tempAnswer = tempAnswer + " ";
+                clickedCount++; 
+                clickedArr.push("");
+            }
+            if(AnswerClickedArr.length > 0){
+              //  console.log(AnswerClickedArr);
+                  var el = AnswerClickedArr[0]; 
+                //  var nl = AnswerClickedArr[1];                   
+                 // console.log(tempAnswer[el]);
+                 // console.log(clickedArr);
+                  clickedArr[el]= index;
+                  e.target.value = '';
+                  answerdiv[0].childNodes[el].value = clickedChar;
+                 // answerdiv[0].childNodes[nl].style.background = "rgba(56, 246, 157, 0.931)";
+                  tempAnswer = tempAnswer.substr(0,el) + clickedChar + tempAnswer.substr(el+1);
+                    // console.log(tempAnswer.toLowerCase()+' '+splitAns[0]);
+                  AnswerClickedArr.shift();
+            }
+            else{
+            clickedArr.push(index);
+            // console.log(clickedArr);
             e.target.value = '';
             answerdiv[0].childNodes[clickedCount].value = clickedChar;
-            clickedCount++;
-            tempAnswer = tempAnswer + clickedChar;
-            if(tempAnswer.toLowerCase() === splitAns[0]){
-                //  console.log(tempAnswer+' '+splitAns[0]);
-                  tempAnswer = tempAnswer + " ";
-                  clickedCount++;
+            answerdiv[0].childNodes[clickedCount].style.background = "rgb(9, 240, 132)";
+            if(clickedCount+1 < shuffledAnswer.length){
+                clickedCount++;
+                answerdiv[0].childNodes[clickedCount].style.background = "rgba(81, 231, 156, 0.76)";
             }
+            tempAnswer = tempAnswer + clickedChar;
+            // console.log(tempAnswer.toLowerCase()+' '+splitAns[0]);
+           }
         }
     }
     const checkAnswer = () => {
@@ -277,12 +341,15 @@ export function ShuffledAnswerBlock(props){
     const deletefunc = () => {
         clickedCount = 0;
         tempAnswer = '';
+        clickedArr = [];
+        AnswerClickedArr = [];
         const aElements = answerdiv[0].childNodes;
         const sanswerdiv = document.getElementsByClassName('sanswer');
         const sElements = sanswerdiv[0].childNodes;
         for (let index = 0; index < shuffledAnswer.length; index++) {
             const element = shuffledAnswer[index];
             aElements[index].value = '';
+            aElements[index].style.background = "white";
             sElements[index].value = element.toUpperCase();
         } 
     }
@@ -291,14 +358,14 @@ export function ShuffledAnswerBlock(props){
         const element = shuffledAnswer[index];
         if(element !== " "){
 
-            answerDivs.push(
-                <input type="text"  key={index} className="inner-sanswer-div" value={element.toUpperCase()}
-                onClick={(e) => {userClicked(e)}}  readOnly />
-            );
-            }
-            if(element === " "){
-               answerDivs.push(<br key={index}/>);
-            }
+        answerDivs.push(
+            <input type="text"  key={index} className="inner-sanswer-div" value={element.toUpperCase()}
+            onClick={(e) => {userClicked(e,index)}}  readOnly />
+        );
+        }
+        if(element === " "){
+           answerDivs.push(<br key={index}/>);
+        }
         
     } 
     return(

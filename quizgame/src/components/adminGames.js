@@ -25,6 +25,7 @@ export default class AdminGames extends Component {
         });
         this.handlePreview = this.handlePreview.bind(this);
         this.handleBackSpace =  this.handleBackSpace.bind(this);
+        this.handleEnable = this.handleEnable.bind(this);
     }
     handleBackSpace(e){
         e.preventDefault();
@@ -36,6 +37,19 @@ export default class AdminGames extends Component {
             state : {data : game, preview:false}
         });
     }
+
+    handleEnable(index){
+        var tempG = this.state.games;
+        tempG[index].enable = !tempG[index].enable;
+        this.setState({
+            games:tempG
+        });
+        const id = this.state.games[index]._id;
+        axios.post('http://localhost:5000/game/enableDisable',{id})
+        .then( res => {
+            // window.location.reload(true);
+        });
+    }
     render() {
         return (
             <div className="panel">
@@ -45,7 +59,7 @@ export default class AdminGames extends Component {
                     <img src={backspace} alt="back"/>
                 </div>
                 {this.state.games.length > 0 ?
-                <GameBlock games={this.state.games} handlePreview={this.handlePreview}/>:
+                <GameBlock games={this.state.games} handlePreview={this.handlePreview} changeEnable={this.handleEnable}/>:
                 <div>
                     <BeatLoader
                     size={50}
@@ -63,6 +77,10 @@ export default class AdminGames extends Component {
 export function GameBlock(props){
     const games = props.games;
     const gamesList = [];
+    const toggle = (e,index) => {
+        e.preventDefault();
+        props.changeEnable(index);
+    };
     games.forEach((game,index) => {
         gamesList.push(
         <div id="game" key={index}>
@@ -70,6 +88,11 @@ export function GameBlock(props){
             <p style={{fontSize:"25px"}}>{game.gameName}
             <Button id="preview-butt" type="button" onClick={(e) => {props.handlePreview(game)}}>Preview</Button>
             </p>
+            {
+            game.enable?
+            <Button className="bg-danger" type="button" id="endb" onClick={(e) => {toggle(e,index)}}>Disable</Button>:
+            <Button className="bg-success" type="button" id="endb"  onClick={(e) => {toggle(e,index)}}>Enable</Button>
+            }
             </div>
             <br/>
             {

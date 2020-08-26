@@ -127,6 +127,8 @@
     border-radius: 5px;
     background-color: white;
     outline: none;
+    cursor: pointer;
+    box-shadow: 1px 1px 7px 1px rgb(245, 47, 212);
 }
 
 .sanswer{
@@ -201,7 +203,7 @@
     width:280px;
     height:250px;
     padding:20px;
-    box-shadow: 2px 2px 2px 2px rgb(245, 47, 212)
+    box-shadow: 1px 1px 5px 5px rgb(245, 47, 212);
 }
 
 #confirm-quit img{

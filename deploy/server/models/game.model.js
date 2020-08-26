@@ -38,6 +38,10 @@ const gameSchema = new Schema({
     },
     winners:{
         type:Array
+    },
+    enable:{
+        type:Boolean,
+        default:true
     }
 },{
     timestamps: true

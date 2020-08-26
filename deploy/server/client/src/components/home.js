@@ -85,7 +85,7 @@ export default class Home extends Component {
                 que : temp
             });
             this.state.questions.push(this.state.que);
-            console.log(this.state.questions);
+           // console.log(this.state.questions);
             this.setState({
                 questionFormerr:'',
                 questionImgerr:''
@@ -195,7 +195,7 @@ export default class Home extends Component {
             }
         }
         else{
-            console.log("else");
+            // console.log("else");
             this.setState({
                 imageerr:'Enter a image Link!'
             });

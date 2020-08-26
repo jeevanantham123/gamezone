@@ -114,4 +114,20 @@ router.route('/adminGames').post((req, res) => {
     })
   })
 
+router.route('/enableDisable').post((req,res)=>{
+    const id = req.body.id;
+    Game.findById(id)
+    .then((data)=>{
+        const enableModified = !data.enable;
+        Game.updateOne({'_id':id},{$set:{enable:enableModified}})
+        .then((data) =>{
+            res.json('success');
+        })
+        .catch(err => console.log(err))
+    }
+    )
+    .catch((err)=>{
+        console.log(err);
+    })
+})
 module.exports = router;
